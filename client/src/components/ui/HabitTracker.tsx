@@ -24,7 +24,7 @@ export const HabitTracker = ({ data }: HabitTrackerProps) => {
                     const activity = data.find(d => isSameDay(new Date(d.date), day));
                     const count = activity?.count || 0;
 
-                    let colorClass = "bg-white/5";
+                    let colorClass = "bg-primary/10";
                     if (count > 0) colorClass = "bg-accent/20";
                     if (count > 2) colorClass = "bg-accent/40";
                     if (count > 4) colorClass = "bg-accent/60";
@@ -35,7 +35,7 @@ export const HabitTracker = ({ data }: HabitTrackerProps) => {
                         <div
                             key={i}
                             title={`${format(day, 'MMM d, yyyy')}: ${count} tasks`}
-                            className={cn("w-3 h-3 rounded-sm transition-colors hover:border hover:border-white/50", colorClass)}
+                            className={cn("w-3 h-3 rounded-sm transition-colors hover:border hover:border-primary/50", colorClass)}
                         />
                     );
                 })}

@@ -87,7 +87,7 @@ export const DashboardPage = () => {
                         Daily Consistency
                     </h3>
                     <div className="flex items-end gap-2">
-                        <span className="text-4xl font-bold text-white">{progress}%</span>
+                        <span className="text-4xl font-bold text-primary">{progress}%</span>
                         <span className="text-sm text-green-400 mb-1">Target: 80%</span>
                     </div>
                 </GlassCard>
@@ -98,7 +98,7 @@ export const DashboardPage = () => {
                         Tasks Completed
                     </h3>
                     <div className="flex items-end gap-2">
-                        <span className="text-4xl font-bold text-white">{completedCount}</span>
+                        <span className="text-4xl font-bold text-primary">{completedCount}</span>
                         <span className="text-sm text-secondary mb-1">/ {totalCount} scheduled</span>
                     </div>
                 </GlassCard>
@@ -109,7 +109,7 @@ export const DashboardPage = () => {
                         Current Streak
                     </h3>
                     <div className="flex items-end gap-2">
-                        <span className="text-4xl font-bold text-white">{currentStreak}</span>
+                        <span className="text-4xl font-bold text-primary">{currentStreak}</span>
                         <span className="text-sm text-accent mb-1">days</span>
                     </div>
                 </GlassCard>
@@ -117,7 +117,7 @@ export const DashboardPage = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                 <GlassCard className="min-h-[400px]">
-                    <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <h2 className="text-lg font-bold text-primary mb-4 flex items-center gap-2">
                         <Sparkles size={20} className="text-yellow-400" />
                         Today's Focus
                     </h2>

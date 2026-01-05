@@ -78,7 +78,7 @@ export const RegisterPage = () => {
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
 
                     <div className="text-center space-y-2">
-                        <h1 className="text-3xl font-bold text-white tracking-tight">Create account</h1>
+                        <h1 className="text-3xl font-bold text-primary tracking-tight">Create account</h1>
                         <p className="text-secondary">Start tracking your learning journey today</p>
                     </div>
 
@@ -124,7 +124,7 @@ export const RegisterPage = () => {
 
                         <p className="text-center text-secondary text-sm">
                             Already have an account?{" "}
-                            <Link to="/login" className="text-white hover:text-accent transition-colors font-medium">
+                            <Link to="/login" className="text-primary hover:text-accent transition-colors font-medium">
                                 Sign in
                             </Link>
                         </p>

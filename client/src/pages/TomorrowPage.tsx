@@ -28,7 +28,7 @@ export const TomorrowPage = () => {
         <div className="space-y-6 relative min-h-full">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+                    <h1 className="text-2xl font-bold text-primary flex items-center gap-2">
                         <Calendar className="text-accent" />
                         Tomorrow's Plan
                     </h1>

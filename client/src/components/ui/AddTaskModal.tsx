@@ -93,8 +93,8 @@ export const AddTaskModal = ({ isOpen, onClose, defaultDate = new Date() }: AddT
                         className="fixed inset-0 m-auto w-full max-w-md h-fit bg-card border border-white/10 rounded-2xl p-6 shadow-2xl z-50"
                     >
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-xl font-bold text-white">New Task</h2>
-                            <button onClick={onClose} className="text-secondary hover:text-white">
+                            <h2 className="text-xl font-bold text-primary">New Task</h2>
+                            <button onClick={onClose} className="text-secondary hover:text-primary">
                                 <X size={20} />
                             </button>
                         </div>
@@ -105,7 +105,7 @@ export const AddTaskModal = ({ isOpen, onClose, defaultDate = new Date() }: AddT
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
                                     <label className="text-xs text-secondary ml-1">Category</label>
-                                    <select {...register("category")} className="w-full bg-card border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent">
+                                    <select {...register("category")} className="w-full bg-card border border-white/10 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-accent">
                                         <option value="Learning">Learning</option>
                                         <option value="Fitness">Fitness</option>
                                         <option value="Work">Work</option>
@@ -115,7 +115,7 @@ export const AddTaskModal = ({ isOpen, onClose, defaultDate = new Date() }: AddT
 
                                 <div className="space-y-1">
                                     <label className="text-xs text-secondary ml-1">Priority</label>
-                                    <select {...register("priority")} className="w-full bg-card border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent">
+                                    <select {...register("priority")} className="w-full bg-card border border-white/10 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-accent">
                                         <option value="Low">Low</option>
                                         <option value="Medium">Medium</option>
                                         <option value="High">High</option>
@@ -152,7 +152,7 @@ export const AddTaskModal = ({ isOpen, onClose, defaultDate = new Date() }: AddT
                                     <div className="space-y-2 mt-2">
                                         {subtasks.map((task, index) => (
                                             <div key={index} className="flex items-center justify-between bg-card/50 px-3 py-2 rounded-lg border border-white/5">
-                                                <span className="text-sm text-white">{task.title}</span>
+                                                <span className="text-sm text-primary">{task.title}</span>
                                                 <button
                                                     type="button"
                                                     onClick={() => removeSubtask(index)}

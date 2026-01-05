@@ -7,8 +7,7 @@ import {
     addDoc,
     updateDoc,
     deleteDoc,
-    doc,
-    orderBy
+    doc
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuthStore } from '../contexts/authStore';
@@ -44,28 +43,27 @@ export const useTasks = (date?: Date) => {
             const tasksRef = collection(db, 'tasks');
             let q = query(
                 tasksRef,
-                where('userId', '==', user.uid),
-                orderBy('createdAt', 'desc')
+                where('userId', '==', user.uid)
             );
 
             if (dateStr) {
-                // Need a composite index in Firestore for userId + date
-                // For now, let's filter in client if index is missing, or just add the where clause
-                // Actually, simple AND queries usually work if independent? No, requires index. 
-                // Let's assume we will build the index.
                 q = query(
                     tasksRef,
                     where('userId', '==', user.uid),
                     where('date', '==', dateStr)
-                    // orderBy('createdAt', 'desc') // Start simple to avoid complex index requirements immediately
                 );
             }
 
             const snapshot = await getDocs(q);
-            return snapshot.docs.map(doc => ({
+            const tasks = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
             })) as Task[];
+
+            // Client-side sort to avoid Firestore index requirements
+            return tasks.sort((a, b) =>
+                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
         },
         enabled: !!user
     });

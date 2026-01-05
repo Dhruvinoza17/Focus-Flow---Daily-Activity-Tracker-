@@ -52,7 +52,7 @@ export const LoginPage = () => {
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
 
                     <div className="text-center space-y-2">
-                        <h1 className="text-3xl font-bold text-white tracking-tight">Welcome back</h1>
+                        <h1 className="text-3xl font-bold text-primary tracking-tight">Welcome back</h1>
                         <p className="text-secondary">Enter your details to access your dashboard</p>
                     </div>
 
@@ -91,7 +91,7 @@ export const LoginPage = () => {
                                     id="remember"
                                     className="w-4 h-4 rounded border-white/20 bg-white/5 text-accent focus:ring-accent focus:ring-offset-0 cursor-pointer"
                                 />
-                                <label htmlFor="remember" className="text-secondary cursor-pointer select-none hover:text-white transition-colors">Remember for 30 days</label>
+                                <label htmlFor="remember" className="text-secondary cursor-pointer select-none hover:text-primary transition-colors">Remember for 30 days</label>
                             </div>
                             <a href="#" className="text-accent hover:text-accent/80 transition-colors">Forgot password?</a>
                         </div>
@@ -102,7 +102,7 @@ export const LoginPage = () => {
 
                         <p className="text-center text-secondary text-sm">
                             Don't have an account?{" "}
-                            <Link to="/register" className="text-white hover:text-accent transition-colors font-medium">
+                            <Link to="/register" className="text-primary hover:text-accent transition-colors font-medium">
                                 Sign up
                             </Link>
                         </p>

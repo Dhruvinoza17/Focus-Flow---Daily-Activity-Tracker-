@@ -43,7 +43,7 @@ export const Sidebar = () => {
                                 <div
                                     className={cn(
                                         "relative flex items-center gap-3 px-4 py-3 rounded-xl transition-colors duration-200",
-                                        isActive ? "text-accent" : "text-secondary hover:text-white"
+                                        isActive ? "text-accent" : "text-secondary hover:text-primary"
                                     )}
                                 >
                                     <item.icon size={20} />
@@ -55,7 +55,7 @@ export const Sidebar = () => {
                 })}
             </nav>
 
-            <button className="flex items-center gap-3 px-4 py-3 text-secondary hover:text-white transition-colors mt-auto">
+            <button className="flex items-center gap-3 px-4 py-3 text-secondary hover:text-primary transition-colors mt-auto">
                 <LogOut size={20} />
                 <span className="font-medium">Logout</span>
             </button>

@@ -90,7 +90,7 @@ export const TaskCard = ({ task }: TaskCardProps) => {
             <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-4">
                     <h4 className={cn(
-                        "font-medium text-white truncate transition-all text-base",
+                        "font-medium text-primary truncate transition-all text-base",
                         task.status === 'Completed' && "line-through text-secondary"
                     )}>
                         {task.title}
@@ -143,7 +143,7 @@ export const TaskCard = ({ task }: TaskCardProps) => {
                                     "w-4 h-4 rounded border border-white/20 flex items-center justify-center transition-colors",
                                     subtask.completed ? "bg-accent border-accent" : "group-hover/sub:border-accent"
                                 )}>
-                                    {subtask.completed && <CheckCircle2 size={12} className="text-white" />}
+                                    {subtask.completed && <CheckCircle2 size={12} className="text-primary" />}
                                 </div>
                                 <span className={cn(
                                     "text-sm transition-all",
