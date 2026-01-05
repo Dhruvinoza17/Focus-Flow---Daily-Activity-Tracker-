@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { GlassCard } from "../components/ui/GlassCard";
-import { useAuthStore } from "../contexts/authStore";
 import { useTasks } from "../hooks/useTasks";
 import { TaskCard } from "../components/ui/TaskCard";
 import { AddTaskModal } from "../components/ui/AddTaskModal";
@@ -8,10 +8,10 @@ import { HabitTracker } from "../components/ui/HabitTracker";
 import { ProductivityChart } from "../components/ui/ProductivityChart";
 import { Button } from "../components/ui/Button";
 import { useHabitHeatmap } from "../hooks/useAnalytics";
-import { Plus } from "lucide-react";
+import { Plus, Target, CheckSquare, Flame, Sparkles } from "lucide-react";
+import { format, subDays } from "date-fns";
 
 export const DashboardPage = () => {
-    const { user } = useAuthStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { data: tasks, isLoading } = useTasks(new Date()); // Fetch today's tasks
     const { data: heatmapData } = useHabitHeatmap();
@@ -20,24 +20,72 @@ export const DashboardPage = () => {
     const totalCount = tasks?.length || 0;
     const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
-    return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between mb-8">
-                <div>
-                    <h1 className="text-3xl font-bold text-white">
-                        Good Evening, <span className="text-accent">{user?.displayName}</span>
-                    </h1>
-                    <p className="text-secondary mt-1">Here is your daily overview.</p>
-                </div>
-                <Button onClick={() => setIsModalOpen(true)}>
-                    <Plus size={18} className="mr-2" />
-                    Add Task
-                </Button>
-            </div>
+    // Calculate Streak
+    const calculateStreak = () => {
+        if (!heatmapData || heatmapData.length === 0) return 0;
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        let streak = 0;
+        const today = new Date();
+        // Check if we have an entry for today
+        const todayStr = format(today, 'yyyy-MM-dd');
+        const hasToday = heatmapData.some(d => d.date === todayStr);
+
+        // Start checking from today if we have a task, otherwise start from yesterday
+        let currentCheck = hasToday ? today : subDays(today, 1);
+
+        while (true) {
+            const dateStr = format(currentCheck, 'yyyy-MM-dd');
+            const hasData = heatmapData.some(d => d.date === dateStr);
+
+            if (hasData) {
+                streak++;
+                currentCheck = subDays(currentCheck, 1);
+            } else {
+                break;
+            }
+        }
+        return streak;
+    };
+
+    const currentStreak = calculateStreak();
+
+    const getPriorityWeight = (p: string) => {
+        const lower = p?.toLowerCase();
+        if (lower === 'high') return 0;
+        if (lower === 'medium') return 1;
+        if (lower === 'low') return 2;
+        return 3;
+    };
+
+    const sortedTasks = tasks ? [...tasks].sort((a: any, b: any) => {
+        return getPriorityWeight(a.priority) - getPriorityWeight(b.priority);
+    }) : [];
+
+    // Calculate Weekly Productivity Data
+    const getWeeklyData = () => {
+        const days = Array.from({ length: 7 }).map((_, i) => subDays(new Date(), 6 - i));
+
+        return days.map(day => {
+            const dateStr = format(day, 'yyyy-MM-dd');
+            const entry = heatmapData?.find(d => d.date === dateStr);
+            return {
+                name: format(day, 'EEE'),
+                completion: entry ? entry.count : 0
+            };
+        });
+    };
+
+    const weeklyData = getWeeklyData();
+
+    return (
+        <div className="space-y-6 relative min-h-full">
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
                 <GlassCard className="p-6">
-                    <h3 className="text-secondary text-sm font-medium mb-2">Daily Consistency</h3>
+                    <h3 className="text-secondary text-sm font-medium mb-2 flex items-center gap-2">
+                        <Target size={16} className="text-accent" />
+                        Daily Consistency
+                    </h3>
                     <div className="flex items-end gap-2">
                         <span className="text-4xl font-bold text-white">{progress}%</span>
                         <span className="text-sm text-green-400 mb-1">Target: 80%</span>
@@ -45,7 +93,10 @@ export const DashboardPage = () => {
                 </GlassCard>
 
                 <GlassCard className="p-6">
-                    <h3 className="text-secondary text-sm font-medium mb-2">Tasks Completed</h3>
+                    <h3 className="text-secondary text-sm font-medium mb-2 flex items-center gap-2">
+                        <CheckSquare size={16} className="text-blue-400" />
+                        Tasks Completed
+                    </h3>
                     <div className="flex items-end gap-2">
                         <span className="text-4xl font-bold text-white">{completedCount}</span>
                         <span className="text-sm text-secondary mb-1">/ {totalCount} scheduled</span>
@@ -53,9 +104,12 @@ export const DashboardPage = () => {
                 </GlassCard>
 
                 <GlassCard className="p-6">
-                    <h3 className="text-secondary text-sm font-medium mb-2">Current Streak</h3>
+                    <h3 className="text-secondary text-sm font-medium mb-2 flex items-center gap-2">
+                        <Flame size={16} className="text-orange-500 fill-orange-500" />
+                        Current Streak
+                    </h3>
                     <div className="flex items-end gap-2">
-                        <span className="text-4xl font-bold text-white">7</span>
+                        <span className="text-4xl font-bold text-white">{currentStreak}</span>
                         <span className="text-sm text-accent mb-1">days</span>
                     </div>
                 </GlassCard>
@@ -63,12 +117,15 @@ export const DashboardPage = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                 <GlassCard className="min-h-[400px]">
-                    <h2 className="text-lg font-bold text-white mb-4">Today's Focus</h2>
+                    <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                        <Sparkles size={20} className="text-yellow-400" />
+                        Today's Focus
+                    </h2>
 
                     <div className="flex flex-col gap-3">
                         {isLoading ? (
                             <p className="text-secondary text-center py-4">Loading tasks...</p>
-                        ) : tasks?.length === 0 ? (
+                        ) : sortedTasks.length === 0 ? (
                             <div className="text-center py-8 text-secondary">
                                 <p>No tasks for today.</p>
                                 <Button variant="outline" size="sm" className="mt-4" onClick={() => setIsModalOpen(true)}>
@@ -76,7 +133,7 @@ export const DashboardPage = () => {
                                 </Button>
                             </div>
                         ) : (
-                            tasks?.map((task: any) => (
+                            sortedTasks.map((task: any) => (
                                 <TaskCard key={task.id} task={task} />
                             ))
                         )}
@@ -85,13 +142,19 @@ export const DashboardPage = () => {
 
                 <div className="flex flex-col gap-6">
                     <HabitTracker data={heatmapData || []} />
-
-                    <GlassCard className="flex-1 min-h-[200px]">
-                        <h2 className="text-lg font-bold text-white mb-4">Productivity Trend</h2>
-                        <ProductivityChart />
-                    </GlassCard>
+                    <ProductivityChart data={weeklyData} />
                 </div>
             </div>
+
+            {/* Floating Action Button for New Task */}
+            <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsModalOpen(true)}
+                className="fixed bottom-8 right-8 w-14 h-14 bg-accent text-primary rounded-full shadow-lg shadow-accent/20 flex items-center justify-center z-50 hover:bg-accent/90 transition-colors"
+            >
+                <Plus size={28} />
+            </motion.button>
 
             <AddTaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>

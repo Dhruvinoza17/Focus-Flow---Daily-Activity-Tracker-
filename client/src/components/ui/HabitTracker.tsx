@@ -1,6 +1,7 @@
 import { cn } from "../../lib/utils";
 import { subDays, format, isSameDay } from "date-fns";
 import { GlassCard } from "./GlassCard";
+import { Activity } from "lucide-react";
 
 interface HabitTrackerProps {
     data: { date: string; count: number }[];
@@ -14,7 +15,10 @@ export const HabitTracker = ({ data }: HabitTrackerProps) => {
 
     return (
         <GlassCard className="p-6">
-            <h3 className="text-secondary text-sm font-medium mb-4">Consistency Heatmap</h3>
+            <h3 className="text-secondary text-sm font-medium mb-4 flex items-center gap-2">
+                <Activity size={16} className="text-accent" />
+                Consistency Heatmap
+            </h3>
             <div className="flex flex-wrap gap-1">
                 {days.map((day, i) => {
                     const activity = data.find(d => isSameDay(new Date(d.date), day));

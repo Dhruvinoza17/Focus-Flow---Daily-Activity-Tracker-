@@ -1,20 +1,27 @@
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { GlassCard } from './GlassCard';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
-const data = [
-    { name: 'Mon', completion: 40 },
-    { name: 'Tue', completion: 60 },
-    { name: 'Wed', completion: 75 },
-    { name: 'Thu', completion: 50 },
-    { name: 'Fri', completion: 85 },
-    { name: 'Sat', completion: 90 },
-    { name: 'Sun', completion: 70 },
-];
+interface ProductivityChartProps {
+    data: { name: string; completion: number }[];
+}
 
-export const ProductivityChart = () => {
+export const ProductivityChart = ({ data }: ProductivityChartProps) => {
+    // Calculate trend based on last two data points
+    const lastPoint = data[data.length - 1].completion;
+    const prevPoint = data[data.length - 2].completion;
+    const isTrendingUp = lastPoint >= prevPoint;
+
     return (
         <GlassCard className="h-full min-h-[300px] flex flex-col p-6">
-            <h3 className="text-secondary text-sm font-medium mb-4">Weekly Productivity</h3>
+            <h3 className="text-secondary text-sm font-medium mb-4 flex items-center gap-2">
+                {isTrendingUp ? (
+                    <TrendingUp size={16} className="text-green-400" />
+                ) : (
+                    <TrendingDown size={16} className="text-red-400" />
+                )}
+                Weekly Productivity
+            </h3>
             <div className="flex-1 w-full min-h-[200px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={data}>

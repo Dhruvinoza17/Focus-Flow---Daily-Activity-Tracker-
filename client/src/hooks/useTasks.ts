@@ -6,11 +6,18 @@ import {
     getDocs,
     addDoc,
     updateDoc,
+    deleteDoc,
     doc,
     orderBy
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuthStore } from '../contexts/authStore';
+
+export interface SubTask {
+    id: string;
+    title: string;
+    completed: boolean;
+}
 
 export interface Task {
     id: string; // Firestore ID
@@ -22,6 +29,7 @@ export interface Task {
     timeEstimate?: number;
     userId: string;
     createdAt: string;
+    subtasks?: SubTask[];
 }
 
 export const useTasks = (date?: Date) => {
@@ -101,6 +109,22 @@ export const useUpdateTask = () => {
         },
         onSuccess: () => {
             // We'd ideally need the date to invalidate the specific query, but iterating all active queries is safer or carrying date in variables
+            queryClient.invalidateQueries({ queryKey: ['tasks'] });
+            queryClient.invalidateQueries({ queryKey: ['habitHeatmap'] });
+        }
+    });
+};
+
+export const useDeleteTask = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (id: string) => {
+            await deleteDoc(doc(db, 'tasks', id));
+            return id;
+        },
+        onSuccess: () => {
+            // Ideally invalidate usage based on date if we had it, but simpler to invalidate all tasks
             queryClient.invalidateQueries({ queryKey: ['tasks'] });
             queryClient.invalidateQueries({ queryKey: ['habitHeatmap'] });
         }

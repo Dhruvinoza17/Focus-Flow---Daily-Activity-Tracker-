@@ -4,6 +4,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { DashboardPage } from "./pages/DashboardPage";
+import { TomorrowPage } from "./pages/TomorrowPage";
+import { UpcomingPage } from "./pages/UpcomingPage";
+import { AnalyticsPage } from "./pages/AnalyticsPage";
+import { SettingsPage } from "./pages/SettingsPage";
 import { MainLayout } from "./components/layout/MainLayout";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 import { useAuthStore } from "./contexts/authStore";
@@ -38,11 +42,11 @@ function App() {
                     <Route element={<ProtectedRoute />}>
                         <Route element={<MainLayout />}>
                             <Route path="/" element={<DashboardPage />} />
-                            <Route path="/today" element={<DashboardPage />} /> {/* Placeholder */}
-                            <Route path="/tomorrow" element={<DashboardPage />} /> {/* Placeholder */}
-                            <Route path="/upcoming" element={<DashboardPage />} /> {/* Placeholder */}
-                            <Route path="/analytics" element={<DashboardPage />} /> {/* Placeholder */}
-                            <Route path="/settings" element={<DashboardPage />} /> {/* Placeholder */}
+                            <Route path="/today" element={<Navigate to="/" replace />} />
+                            <Route path="/tomorrow" element={<TomorrowPage />} />
+                            <Route path="/upcoming" element={<UpcomingPage />} />
+                            <Route path="/analytics" element={<AnalyticsPage />} />
+                            <Route path="/settings" element={<SettingsPage />} />
                         </Route>
                     </Route>
 
