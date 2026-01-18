@@ -5,7 +5,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { TomorrowPage } from "./pages/TomorrowPage";
-import { UpcomingPage } from "./pages/UpcomingPage";
+import { HistoryPage } from "./pages/HistoryPage";
 import { AnalyticsPage } from "./pages/AnalyticsPage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { MainLayout } from "./components/layout/MainLayout";
@@ -44,7 +44,8 @@ function App() {
                             <Route path="/" element={<DashboardPage />} />
                             <Route path="/today" element={<Navigate to="/" replace />} />
                             <Route path="/tomorrow" element={<TomorrowPage />} />
-                            <Route path="/upcoming" element={<UpcomingPage />} />
+                            <Route path="/history" element={<HistoryPage />} />
+                            <Route path="/upcoming" element={<Navigate to="/history" replace />} />
                             <Route path="/analytics" element={<AnalyticsPage />} />
                             <Route path="/settings" element={<SettingsPage />} />
                         </Route>

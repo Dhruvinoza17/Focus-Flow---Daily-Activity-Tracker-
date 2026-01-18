@@ -11,7 +11,7 @@ import { useState } from "react";
 
 const schema = z.object({
     title: z.string().min(1, "Title is required"),
-    category: z.enum(['Learning', 'Fitness', 'Work', 'Personal']),
+    category: z.enum(['Learning', 'Work', 'Personal']),
     priority: z.enum(['Low', 'Medium', 'High']),
     timeEstimate: z.coerce.number().optional(),
     date: z.string(), // ISO Date String
@@ -19,7 +19,7 @@ const schema = z.object({
 
 interface FormData {
     title: string;
-    category: 'Learning' | 'Fitness' | 'Work' | 'Personal';
+    category: 'Learning' | 'Work' | 'Personal';
     priority: 'Low' | 'Medium' | 'High';
     timeEstimate?: number;
     date: string;
@@ -107,7 +107,6 @@ export const AddTaskModal = ({ isOpen, onClose, defaultDate = new Date() }: AddT
                                     <label className="text-xs text-secondary ml-1">Category</label>
                                     <select {...register("category")} className="w-full bg-card border border-white/10 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-accent">
                                         <option value="Learning">Learning</option>
-                                        <option value="Fitness">Fitness</option>
                                         <option value="Work">Work</option>
                                         <option value="Personal">Personal</option>
                                     </select>

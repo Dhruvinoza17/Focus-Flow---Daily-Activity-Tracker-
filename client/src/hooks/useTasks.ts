@@ -21,7 +21,7 @@ export interface SubTask {
 export interface Task {
     id: string; // Firestore ID
     title: string;
-    category: 'Learning' | 'Fitness' | 'Work' | 'Personal';
+    category: 'Learning' | 'Work' | 'Personal';
     priority: 'Low' | 'Medium' | 'High';
     status: 'Pending' | 'In Progress' | 'Completed';
     date: string; // ISO String

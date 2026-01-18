@@ -1,14 +1,13 @@
-import { useState } from "react";
 import { addDays } from "date-fns";
 import { GlassCard } from "../components/ui/GlassCard";
 import { useTasks } from "../hooks/useTasks";
 import { TaskCard } from "../components/ui/TaskCard";
-import { AddTaskModal } from "../components/ui/AddTaskModal";
 import { Button } from "../components/ui/Button";
-import { Plus, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
+import { useUIStore } from "../contexts/uiStore";
 
 export const TomorrowPage = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { openTaskModal } = useUIStore();
     const tomorrow = addDays(new Date(), 1);
     const { data: tasks, isLoading } = useTasks(tomorrow);
 
@@ -34,10 +33,7 @@ export const TomorrowPage = () => {
                     </h1>
                     <p className="text-secondary text-sm">Prepare for the day ahead</p>
                 </div>
-                <Button onClick={() => setIsModalOpen(true)}>
-                    <Plus size={18} className="mr-2" />
-                    Add Task
-                </Button>
+                {/* Header button removed as requested */}
             </div>
 
             <GlassCard className="min-h-[500px] p-6">
@@ -47,7 +43,7 @@ export const TomorrowPage = () => {
                     ) : sortedTasks.length === 0 ? (
                         <div className="text-center py-12 text-secondary">
                             <p>No tasks scheduled for tomorrow.</p>
-                            <Button variant="outline" size="sm" className="mt-4" onClick={() => setIsModalOpen(true)}>
+                            <Button variant="outline" size="sm" className="mt-4" onClick={() => openTaskModal()}>
                                 Plan ahead
                             </Button>
                         </div>
@@ -58,12 +54,6 @@ export const TomorrowPage = () => {
                     )}
                 </div>
             </GlassCard>
-
-            <AddTaskModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                defaultDate={tomorrow}
-            />
         </div>
     );
 };

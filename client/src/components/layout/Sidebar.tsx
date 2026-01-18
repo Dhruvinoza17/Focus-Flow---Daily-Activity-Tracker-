@@ -1,19 +1,21 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Calendar, CalendarDays, BarChart2, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Calendar, History, BarChart2, Settings, LogOut } from "lucide-react";
 import { BullseyeArrow } from "../icons/BullseyeArrow";
 import { cn } from "../../lib/utils";
 import { motion } from "framer-motion";
+import { useAuthStore } from "../../contexts/authStore";
 
 const navItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/" },
     { icon: Calendar, label: "Tomorrow", path: "/tomorrow" },
-    { icon: CalendarDays, label: "Upcoming", path: "/upcoming" },
+    { icon: History, label: "History", path: "/history" },
     { icon: BarChart2, label: "Analytics", path: "/analytics" },
     { icon: Settings, label: "Settings", path: "/settings" },
 ];
 
 export const Sidebar = () => {
     const location = useLocation();
+    const { logout } = useAuthStore();
 
     return (
         <aside className="w-64 h-full bg-card border-r border-white/5 flex flex-col p-4 hidden md:flex">
@@ -55,7 +57,10 @@ export const Sidebar = () => {
                 })}
             </nav>
 
-            <button className="flex items-center gap-3 px-4 py-3 text-secondary hover:text-primary transition-colors mt-auto">
+            <button
+                onClick={logout}
+                className="flex items-center gap-3 px-4 py-3 text-secondary hover:text-primary transition-colors mt-auto w-full text-left"
+            >
                 <LogOut size={20} />
                 <span className="font-medium">Logout</span>
             </button>

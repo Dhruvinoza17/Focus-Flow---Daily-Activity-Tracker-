@@ -60,7 +60,6 @@ export const TaskCard = ({ task }: TaskCardProps) => {
 
     const categoryColors = {
         Learning: "text-purple-400",
-        Fitness: "text-green-400",
         Work: "text-blue-400",
         Personal: "text-pink-400",
     };

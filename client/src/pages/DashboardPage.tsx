@@ -1,18 +1,13 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
 import { GlassCard } from "../components/ui/GlassCard";
 import { useTasks } from "../hooks/useTasks";
 import { TaskCard } from "../components/ui/TaskCard";
-import { AddTaskModal } from "../components/ui/AddTaskModal";
 import { HabitTracker } from "../components/ui/HabitTracker";
 import { ProductivityChart } from "../components/ui/ProductivityChart";
-import { Button } from "../components/ui/Button";
 import { useHabitHeatmap } from "../hooks/useAnalytics";
-import { Plus, Target, CheckSquare, Flame, Sparkles } from "lucide-react";
+import { Target, CheckSquare, Flame, Sparkles } from "lucide-react";
 import { format, subDays } from "date-fns";
 
 export const DashboardPage = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const { data: tasks, isLoading } = useTasks(new Date()); // Fetch today's tasks
     const { data: heatmapData } = useHabitHeatmap();
 
@@ -128,9 +123,6 @@ export const DashboardPage = () => {
                         ) : sortedTasks.length === 0 ? (
                             <div className="text-center py-8 text-secondary">
                                 <p>No tasks for today.</p>
-                                <Button variant="outline" size="sm" className="mt-4" onClick={() => setIsModalOpen(true)}>
-                                    Plan your day
-                                </Button>
                             </div>
                         ) : (
                             sortedTasks.map((task: any) => (
@@ -146,17 +138,6 @@ export const DashboardPage = () => {
                 </div>
             </div>
 
-            {/* Floating Action Button for New Task */}
-            <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsModalOpen(true)}
-                className="fixed bottom-8 right-8 w-14 h-14 bg-accent text-primary rounded-full shadow-lg shadow-accent/20 flex items-center justify-center z-50 hover:bg-accent/90 transition-colors"
-            >
-                <Plus size={28} />
-            </motion.button>
-
-            <AddTaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
     );
 };
