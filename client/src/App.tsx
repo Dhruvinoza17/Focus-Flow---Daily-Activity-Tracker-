@@ -6,6 +6,7 @@ import { RegisterPage } from "./pages/RegisterPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { TomorrowPage } from "./pages/TomorrowPage";
 import { HistoryPage } from "./pages/HistoryPage";
+import { BacklogPage } from "./pages/BacklogPage";
 import { AnalyticsPage } from "./pages/AnalyticsPage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { MainLayout } from "./components/layout/MainLayout";
@@ -44,6 +45,7 @@ function App() {
                             <Route path="/" element={<DashboardPage />} />
                             <Route path="/today" element={<Navigate to="/" replace />} />
                             <Route path="/tomorrow" element={<TomorrowPage />} />
+                            <Route path="/backlog" element={<BacklogPage />} />
                             <Route path="/history" element={<HistoryPage />} />
                             <Route path="/upcoming" element={<Navigate to="/history" replace />} />
                             <Route path="/analytics" element={<AnalyticsPage />} />

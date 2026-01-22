@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Calendar, History, BarChart2, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Calendar, History, BarChart2, Settings, LogOut, ArchiveRestore } from "lucide-react";
 import { BullseyeArrow } from "../icons/BullseyeArrow";
 import { cn } from "../../lib/utils";
 import { motion } from "framer-motion";
@@ -9,6 +9,7 @@ const navItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/" },
     { icon: Calendar, label: "Tomorrow", path: "/tomorrow" },
     { icon: History, label: "History", path: "/history" },
+    { icon: ArchiveRestore, label: "Backlog", path: "/backlog" },
     { icon: BarChart2, label: "Analytics", path: "/analytics" },
     { icon: Settings, label: "Settings", path: "/settings" },
 ];

@@ -6,9 +6,22 @@ import { cn } from "../../lib/utils";
 
 interface TaskCardProps {
     task: Task;
+    onReschedule?: () => void;
 }
 
-export const TaskCard = ({ task }: TaskCardProps) => {
+const priorityColors = {
+    Low: "bg-blue-500/10 text-blue-500",
+    Medium: "bg-yellow-500/10 text-yellow-500",
+    High: "bg-red-500/10 text-red-500",
+};
+
+const categoryColors = {
+    Learning: "text-purple-400",
+    Work: "text-blue-400",
+    Personal: "text-pink-400",
+};
+
+export const TaskCard = ({ task, onReschedule }: TaskCardProps) => {
     const { mutate: updateTask } = useUpdateTask();
     const { mutate: deleteTask, isPending: isDeleting } = useDeleteTask();
 
@@ -17,6 +30,30 @@ export const TaskCard = ({ task }: TaskCardProps) => {
             deleteTask(task.id);
         }
     };
+    // ... (keep middle unchanged) ...
+    <div className="flex items-center gap-2 flex-shrink-0">
+        <div className={cn("px-2 py-1 rounded text-xs font-medium", priorityColors[task.priority])}>
+            {task.priority}
+        </div>
+
+        {onReschedule && (
+            <button
+                onClick={onReschedule}
+                className="p-1 text-secondary/50 hover:text-orange-400 hover:bg-orange-400/10 rounded-lg transition-colors"
+                title="Reschedule"
+            >
+                <CalendarDays size={16} />
+            </button>
+        )}
+
+        <button
+            onClick={handleDelete}
+            disabled={isDeleting}
+            className="p-1 text-secondary/50 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+        >
+            <Trash2 size={16} />
+        </button>
+    </div>
 
     const handleStatusToggle = () => {
         const newStatus = task.status === 'Completed' ? 'Pending' : 'Completed';
@@ -50,18 +87,6 @@ export const TaskCard = ({ task }: TaskCardProps) => {
             subtasks: newSubtasks,
             status: newStatus
         });
-    };
-
-    const priorityColors = {
-        Low: "bg-blue-500/10 text-blue-500",
-        Medium: "bg-yellow-500/10 text-yellow-500",
-        High: "bg-red-500/10 text-red-500",
-    };
-
-    const categoryColors = {
-        Learning: "text-purple-400",
-        Work: "text-blue-400",
-        Personal: "text-pink-400",
     };
 
     return (
@@ -99,6 +124,17 @@ export const TaskCard = ({ task }: TaskCardProps) => {
                         <div className={cn("px-2 py-1 rounded text-xs font-medium", priorityColors[task.priority])}>
                             {task.priority}
                         </div>
+
+                        {onReschedule && (
+                            <button
+                                onClick={onReschedule}
+                                className="p-1 text-secondary/50 hover:text-orange-400 hover:bg-orange-400/10 rounded-lg transition-colors"
+                                title="Reschedule"
+                            >
+                                <CalendarDays size={16} />
+                            </button>
+                        )}
+
                         <button
                             onClick={handleDelete}
                             disabled={isDeleting}
